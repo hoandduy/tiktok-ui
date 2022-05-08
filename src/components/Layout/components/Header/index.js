@@ -1,7 +1,14 @@
-import React from 'react';
+import Styles from './Header.module.scss';
+import classNames from 'classnames/bind';
+
+const cx = classNames.bind(Styles);
 
 function Header() {
-  return <div>Header</div>;
+  return (
+    <header className={cx('wrapper')}>
+      <div className={cx('inner')}></div>
+    </header>
+  );
 }
 
 export default Header;
