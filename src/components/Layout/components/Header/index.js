@@ -1,14 +1,12 @@
 import {
   faCircleQuestion,
   faCircleXmark,
-  faCloudUpload,
   faCoins,
   faEarthAsia,
   faEllipsisVertical,
   faGear,
   faKeyboard,
   faMagnifyingGlass,
-  faMessage,
   faSignOut,
   faSpinner,
   faUser,
@@ -18,13 +16,15 @@ import Tippy from '@tippyjs/react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import 'tippy.js/dist/tippy.css';
 import images from '~/assets/images';
 import AccountItem from '~/components/AccountItem';
 import Button from '~/components/Button';
+import { InboxIcon, MessageIcon, UploadIcon } from '~/components/Icons';
+import Image from '~/components/Image';
 import { Wrapper as PopperWrapper } from '~/components/Poper';
 import Menu from '~/components/Poper/Menu';
 import Styles from './Header.module.scss';
-import 'tippy.js/dist/tippy.css';
 
 const cx = classNames.bind(Styles);
 
@@ -140,9 +140,19 @@ function Header() {
         <div className={cx('actions')}>
           {currentUser ? (
             <>
-              <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
+              <Tippy delay={[0, 50]} offset={[null, 6]} content="Upload video" placement="bottom">
                 <button className={cx('action-btn')}>
-                  <FontAwesomeIcon icon={faCloudUpload} />
+                  <UploadIcon />
+                </button>
+              </Tippy>
+              <Tippy delay={[0, 50]} content="Messages" placement="bottom">
+                <button className={cx('action-btn')}>
+                  <MessageIcon />
+                </button>
+              </Tippy>
+              <Tippy delay={[0, 50]} offset={[null, 6]} content="Inbox" placement="bottom">
+                <button className={cx('action-btn')}>
+                  <InboxIcon />
                 </button>
               </Tippy>
             </>
@@ -155,10 +165,11 @@ function Header() {
 
           <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
             {currentUser ? (
-              <img
+              <Image
                 className={cx('user-avatar')}
                 src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/7099285162680123397~c5_720x720.jpeg?x-expires=1653116400&x-signature=o8WtzRewjOB67SQPcQ5ADlgn%2FgM%3D"
                 alt="Nguyen Van A"
+                fallback="https://static.fullstack.edu.vn/static/media/f8-icon.7ad2b161d5e80c87e516.png"
               />
             ) : (
               <button className={cx('more-btn')}>
