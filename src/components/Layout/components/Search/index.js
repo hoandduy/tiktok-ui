@@ -7,6 +7,7 @@ import 'tippy.js/dist/tippy.css';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
 import { Wrapper as PopperWrapper } from '~/components/Poper';
+import { useDebounce } from '~/hooks';
 import Styles from './Search.module.scss';
 
 const cx = classNames.bind(Styles);
@@ -17,26 +18,27 @@ function Search() {
   const [showResult, setShowResult] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const debounced = useDebounce(searchValue, 500);
+
   const inputRef = useRef();
 
   useEffect(() => {
-    if (!searchValue) {
+    if (!debounced) {
       setSearchResult([]);
       return;
-    } else {
-      setLoading(true);
-
-      fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
-        .then((res) => res.json())
-        .then((res) => {
-          setSearchResult(res.data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
     }
-  }, [searchValue]);
+    setLoading(true);
+
+    fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
+      .then((res) => res.json())
+      .then((res) => {
+        setSearchResult(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [debounced]);
 
   const handleClear = () => {
     setSearchValue('');
