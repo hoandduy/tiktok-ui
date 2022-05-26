@@ -33,7 +33,6 @@ function Search() {
     const fetchApi = async () => {
       setLoading(true);
       const result = await searchServices.search(debounced);
-      console.log(result);
       setSearchResult(result);
       setLoading(false);
     };
@@ -48,10 +47,9 @@ function Search() {
   };
 
   const handleSearchValue = (e) => {
-    if (e.target.value === ' ') {
-      setSearchValue('');
-    } else {
-      setSearchValue(e.target.value);
+    const searchValue = e.target.value;
+    if (!searchValue.startsWith(' ')) {
+      setSearchValue(searchValue);
     }
   };
 
@@ -93,7 +91,7 @@ function Search() {
           </button>
         )}
         {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-        <button className={cx('search-btn')}>
+        <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
           <SearchIcon />
         </button>
       </div>
