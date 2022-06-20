@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import './GlobaStyles.scss';
+import './GlobalStyles.scss';
 
 function GlobalStyles({ children }) {
   return React.Children.only(children);
